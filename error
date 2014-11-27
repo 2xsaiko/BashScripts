@@ -1,0 +1,11 @@
+#!/bin/bash
+
+tput sgr0
+tput bold
+echo -n "["
+tput setaf 1
+echo -n "FAIL"
+tput sgr0
+tput bold
+echo "] $@"
+tput sgr0

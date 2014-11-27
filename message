@@ -1,0 +1,11 @@
+#!/bin/bash
+
+tput sgr0
+tput bold
+echo -n "["
+tput setaf 2
+echo -n " OK "
+tput sgr0
+tput bold
+echo "] $@"
+tput sgr0

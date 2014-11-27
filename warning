@@ -1,0 +1,12 @@
+#!/bin/bash
+
+tput sgr0
+tput bold
+echo -n "["
+tput sgr0
+tput setaf 3
+echo -n "WARN"
+tput sgr0
+tput bold
+echo "] $@"
+tput sgr0
