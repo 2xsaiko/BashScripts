@@ -1,0 +1,64 @@
+#!/bin/bash
+# Created by mr, So 2. Mär 06:42:44 CET 2014.
+# Code must go under this line.
+
+mode=$1
+install_loc="/home/`whoami`/bin"
+server_path="https://raw.githubusercontent.com/MRebhan/BashScripts/master/"
+
+tput bold
+
+if [ "x$(echo $PATH | grep $install_loc)" = "x" ]; then
+  echo Make sure $install_loc is in your path!
+  exit 1
+fi
+install_loc="$install_loc/"
+
+case $mode in
+"SCRIPT")
+if [ ! "x$2" = "x" ]; then
+  wget -qO $install_loc.$2 $server_path$2
+  if [ -f $install_loc.$2 ]; then
+    if [ ! "x$(cat $install_loc.$2)" = "x" ]; then
+      if [ -f $install_loc$2 ]; then
+        if diff $install_loc.$2 $install_loc$2 > /dev/null; then
+          rm $install_loc.$2
+        else
+          echo ">>> Updating target: $2"
+          mv $install_loc.$2 $install_loc$2
+          chmod u+x $install_loc$2
+        fi
+      else
+        echo ">>> Installing target: $2"
+        mv $install_loc.$2 $install_loc$2
+        chmod u+x $install_loc$2
+      fi
+    else
+      echo ">>> `tput setaf 1`An error occurred while installing $2. Is it a file not downloaded by REQUIRE? If yes, you can ignore this message.`tput sgr0``tput bold`"
+      rm $install_loc.$2
+    fi
+  else
+    echo ">>> `tput setaf 1`An error occurred while installing $2.`tput sgr0``tput bold`"
+  fi
+else
+  echo "name is required for SCRIPT mode."
+fi
+;;
+"UPDATE")
+echo ">>> Updating all installed scripts..."
+cd $install_loc
+for file in `ls`; do
+  $0 SCRIPT $file
+done
+;;
+"SELFUPDATE")
+echo ">>> Updating target SELF (REQUIRE)"
+$0 SCRIPT REQUIRE
+;;
+*)
+echo "Usage: REQUIRE <SCRIPT|SELFUPDATE|UPDATE> [name]"
+echo "REQUIRE is an automatic script updater"
+;;
+esac
+
+tput sgr0
