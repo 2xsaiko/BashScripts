@@ -1,0 +1,27 @@
+#!/bin/bash
+# Created by marco, Do 27. Nov 18:56:41 CET 2014.
+# Code must go under this line.
+
+REQUIRE SCRIPT indexof
+
+test "x$1" = "x" && echo "Syntax: `basename $0` <wlan|ethernet>" && echo Gets the first interface of specified type. && exit 1
+
+ifaces="$(ip link | grep UP | sed 's/ /@/g')"
+
+for iface in $ifaces; do
+  iface="$(echo $iface | sed 's/@/ /g')"
+  iface="$(echo $iface | cut -c$(echo "$(echo $iface | indexof :) + 2" | bc)-)"
+  iface="$(echo $iface | cut -c-$(echo $iface | indexof :))"
+  case $1 in
+  "wlan")
+    prefix="wl"
+  ;; "ethernet")
+    prefix="e"
+  ;; *)
+    echo Dafuq did you select?
+    exit 2
+  ;; esac
+  if [[ $iface == $prefix* ]]; then
+    echo $iface
+  fi
+done
