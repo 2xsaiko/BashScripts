@@ -1,0 +1,10 @@
+#!/bin/bash
+
+touch $1
+chmod u+x $1
+cat <<EOF >$1
+#!/bin/bash
+# Created by `whoami`, `date`.
+# Code must go under this line.
+
+EOF
