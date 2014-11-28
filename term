@@ -1,7 +1,18 @@
 #!/bin/bash
 # Created by marco, Fr 28. Nov 14:20:19 CET 2014.
 # Code must go under this line.
-REQUIRE SCRIPT indexof
+
+function indexof {
+test "x$1" = "x" && echo "Syntax: `basename $0` <char>" && echo Outputs the index of the first found character char of input. Counts from 0. && exit 1
+
+text=$(cat)
+
+for i in $(seq 0 $(expr length "${text}")); do
+  char="${text:$i:1}"
+  test "$char" = "$1" && echo $i && exit 0
+done
+
+}
 
 test "x$1" = "x" && echo "Syntax: `basename $0` <w|h>" && echo Gets the width/height of the terminal. && exit 1
 
