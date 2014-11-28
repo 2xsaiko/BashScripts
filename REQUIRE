@@ -6,7 +6,7 @@ mode=$1
 install_loc="/home/`whoami`/bin"
 server_path="https://raw.githubusercontent.com/MRebhan/BashScripts/master/"
 
-tput bold
+tput bold >&2
 
 if [ "x$(echo $PATH | grep $install_loc)" = "x" ]; then
   echo Make sure $install_loc is in your path! >&2
@@ -61,4 +61,4 @@ echo "REQUIRE is an automatic script updater" >&2
 ;;
 esac
 
-tput sgr0
+tput sgr0 >&2
