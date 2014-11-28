@@ -17,11 +17,11 @@ install_loc="$install_loc/"
 case $mode in
 "SCRIPT")
 if [ ! "x$2" = "x" ]; then
-  wget -qO $install_loc.$2 $server_path$2
+  curl $server_path$2 > $install_loc.$2
   if [ -f $install_loc.$2 ]; then
     if [ ! "x$(cat $install_loc.$2)" = "x" ]; then
       if [ -f $install_loc$2 ]; then
-        if diff $install_loc.$2 $install_loc$2 > /dev/null; then
+        if diff $install_loc.$2 $install_loc$2; then
           rm $install_loc.$2
         else
           echo ">>> Updating target: $2" >&2
