@@ -1,0 +1,19 @@
+#!/bin/bash
+# Created by marco, Fr 28. Nov 14:20:19 CET 2014.
+# Code must go under this line.
+REQUIRE SCRIPT indexof
+
+test "x$1" = "x" && echo "Syntax: `basename $0` <w|h>" && echo Gets the width/height of the terminal. && exit 1
+
+info=$(stty size)
+case $1 in
+  w)
+    info="$(echo $info | cut -c$(echo "$(echo $info | indexof \ ) + 2" | bc)-)"
+  ;;
+  h)
+    info="$(echo $info | cut -c-$(echo $info | indexof \ ))"
+  ;;
+  *)
+    info=
+esac
+echo $info
